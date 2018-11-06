@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Data Table</title>
+    <style>
+            table {
+                width: 60%;
+                border: 1p black;
+                border-collapse: collapse;
+            }
+            th, td {
+                height: 30px; border: 1px double black;
+                border-collapse: collapse;
+            }
+            </style>
+</head>
+<body>
+    <center>
+        Nama   <input id="nama" type="text" placeholder="Ketik Nama ...">
+        
+        Tgl.Lahir   <input id="tahunlahir" type="date" placeholder="">
+        
+        Kota   <input id="kota" type="text" placeholder="Ketik Kota ...">
+        <br><br>
+        <button onclick="klik()"> DAFTAR </button>
+        <br><br>
+        <button onclick="upName()"> Sort Nama <b>&#8593;</b> </button>
+        <button onclick="downName()"> Sort Nama &#8595;</button>
+        <button onclick="upUsia()"> Sort Usia &#8593;</button>
+        <button onclick="downUsia()"> Sort Usia &#8595;</button>
+        <button onclick="upUsia()"> Sort Kota &#8593;</button>
+        <button onclick="downUsia()"> Sort Kota &#8595;</button><br><br>
+        <br><br>
+        
+        <table>
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table> 
+    </center>
+
+    <script>
+        var users = []
+        var month =["January","February","Maret","April","May","Juny","July","August","September","October","November","December"]
+        function del(){
+            document.getElementById("tbody").deleteRow(0);
+        }
+           
+        function klik() {
+            
+        var dataUser = {
+            nama:document.getElementById('nama').value,
+            tanggal:document.getElementById('tahunlahir').value.slice(8,10),
+            bulan:month[parseInt(document.getElementById('tahunlahir').value.slice(5,7)-1)],
+            tahunlahir:document.getElementById('tahunlahir').value.slice(0,4),
+            usia: 2018 - document.getElementById('tahunlahir').value.slice(0,4),
+            pensiun:(2018 - document.getElementById('tahunlahir').value.slice(0,4)) -55,
+            kota:document.getElementById('kota').value,
+            
+            ramalan: function(){
+                if(this.tanggal>=22 && this.bulan=="December" || this.tanggal<=20 && this.bulan=="April"){
+                    return 'Capricorn'
+                }else if(this.tanggal>=21 && this.bulan=="January" || this.tanggal<=19 && this.bulan=="February"){
+                    return 'Aquarius'
+                }else if(this.tanggal>=20 && this.bulan=="February" || this.tanggal<=20 && this.bulan=="Maret"){
+                    return 'Pisces'
+                }else if(this.tanggal>=21 && this.bulan=="Maret" || this.tanggal<=19 && this.bulan=="April"){
+                    return 'Aries'
+                }else if(this.tanggal>=20 && this.bulan=="April" || this.tanggal<=20 && this.bulan=="May"){
+                    return 'Gemini'
+                }else if(this.tanggal>=21 && this.bulan=="Juny" || this.tanggal<=23 && this.bulan=="July"){
+                    return 'Cancer'
+                }else if(this.tanggal>=24 && this.bulan=="July" || this.tanggal<=23 && this.bulan=="August"){
+                    return 'Leo'
+                }else if(this.tanggal>=24 && this.bulan=="August" || this.tanggal<=22 && this.bulan=="September"){
+                    return 'Virgo'
+                }else if(this.tanggal>=23 && this.bulan=="September" || this.tanggal<=22 && this.bulan=="October"){
+                    return 'Libra'
+                }else if(this.tanggal>=23 && this.bulan=="October" || this.tanggal<=22 && this.bulan=="November"){
+                    return 'Scorpio'
+                }else if(this.tanggal>=23 && this.bulan=="November" || this.tanggal<=21 && this.bulan=="December"){
+                    return 'Sagitarius'
+                }else{ return "ramalan"}
+            }
+        }
+           
+            users.push(dataUser);
+            
+        
+            document.getElementById("thead").innerHTML = 
+            '<tr><th> Nama </th><th colspan="3"> Tahun Lahir </th><th> Zodiak </th><th>Usia</th><th>Pensiun</th><th>Kota</th><th>Hapus</th></tr>'
+            document.getElementById("tbody").innerHTML = ' ';
+    
+            for(var i=0; i<users.length; i++){
+            document.getElementById("tbody").innerHTML += 
+            '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function upName() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    if (a.nama == b.nama) return 0
+                    else if (a.nama <= b.nama) return -1
+                    else return 1
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function downName() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    if (a.nama == b.nama) return 0
+                    else if (a.nama >= b.nama) return -1
+                    else return 1
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function upUsia() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    return a.usia - b.usia
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function downUsia() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    return b.usia - a.usia
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function upUsia() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    if (a.kota == b.kota) return 0
+                    else if (a.kota <= b.kota) return -1
+                    else return 1
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+        function downUsia() {
+            document.getElementById('tbody').innerHTML = ""
+            for (i = 0; i < users.length; i++) {
+                users.sort(function (a, b) {
+                    if (a.kota == b.kota) return 0
+                    else if (a.kota >= b.kota) return -1
+                    else return 1
+                })
+                console.log(users)
+                document.getElementById("tbody").innerHTML += '<tr><th>' + users[i].nama + '</th><th>'+ users[i].tanggal  + 
+            '</th><th>' + users[i].bulan + '</th> <th>' + users[i].tahunlahir + '</th><th>' + users[i].ramalan() + 
+            '</th><th>' + users[i].usia + '</th><th>' + users[i].pensiun + 
+            '</th><th>' + users[i].kota + '</th><th>'+ "<input type=button value=Hapus onclick=del()></input>"+'</th></tr>'
+            }
+        }
+</script>
+</body>
+</html>
